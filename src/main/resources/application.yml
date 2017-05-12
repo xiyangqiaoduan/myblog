@@ -4,13 +4,13 @@ spring:
   freemarker:
       allowRequestOverride: true
       allowSessionOverride: true
-      cache: true
+      cache: false
       checkTemplateLocation: true
       contentType: text/html
       exposeRequestAttributes: true
       exposeSessionAttributes: true
       exposeSpringMacroHelpers: false
-      suffix: .ftl
+      suffix: .html
       templateEncoding: UTF-8
       request-context-attribute: request
       template-loader-path: classpath:/templates/
