@@ -8,18 +8,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * ${DESCRIPTION}
  *
  * @author yangcb
- * @create 2017-05-12 13:39
+ * @create 2017-05-12 16:29
  **/
 @Controller
 @RequestMapping("admin")
-public class IndexAdminController extends BaseController {
+public class ArticleController extends BaseController {
 
-    @RequestMapping("index.html")
-    public String index(){
 
-        return "admin/index";
+    @RequestMapping("article.html")
+    public String articlePage(){
+
+        return "admin-article";
     }
-
 
 
 

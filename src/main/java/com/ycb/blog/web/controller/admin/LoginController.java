@@ -33,7 +33,7 @@ public class LoginController extends BaseController{
 
     @GetMapping("/login.html")
     public String loginPage(){
-        return "login";
+        return "admin/login";
     }
 
     @RequestMapping(value = "login",method = RequestMethod.POST,produces = {JSON_UTF8})
