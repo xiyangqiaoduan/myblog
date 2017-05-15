@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ycb.blog.dao.OptionDao">
+
+
+    <insert id="insert" parameterType="Option">
+
+      insert into blog_option (option_key,option_value,option_category) values (#{optionKey},#{optionValue},#{optionCategory})
+
+  </insert>
+
+    <update id="update" parameterType="Option">
+
+        update blog_option set option_value=#{optionValue},option_category=#{optionCategory}
+        <where>
+            option_key=#{optionKey}
+        </where>
+
+    </update>
+
+    <select id="findByKey" resultType="Option">
+
+        select * from blog_option
+        <where>
+            option_key=#{optionKey}
+        </where>
+
+        limit 0,1
+
+    </select>
+
+
+</mapper>
