@@ -50,10 +50,28 @@
                 <div class="row cl">
                     <label class="form-label col-xs-4 col-sm-2">
                         <span class="c-red">*</span>
-                        网站名称：</label>
+                        博客名称：</label>
                     <div class="formControls col-xs-8 col-sm-9">
                         <input type="text" id="website-title" name="website_title" placeholder="控制在25个字、50个字节以内"
-                               value="" class="input-text">
+                               value="${systemBase.website_title !}" class="input-text">
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-2">
+                        <span class="c-red">*</span>
+                        博客子标题：</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <input type="text" id="website_subtitle" name="website_subtitle" placeholder="控制在25个字、50个字节以内"
+                               value="${systemBase.website_subtitle !}" class="input-text">
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-2">
+                        <span class="c-red">*</span>
+                        博客地址：</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <input type="text" id="website-url" name="website_url" placeholder="控制在25个字、50个字节以内"
+                               value="${systemBase.website_url !}" class="input-text">
                     </div>
                 </div>
                 <div class="row cl">
@@ -62,7 +80,7 @@
                         关键词：</label>
                     <div class="formControls col-xs-8 col-sm-9">
                         <input type="text" id="website-Keywords" name="website_keywords" placeholder="5个左右,8汉字以内,用英文,隔开"
-                               value=""
+                               value="${systemBase.website_keywords !}"
                                class="input-text">
                     </div>
                 </div>
@@ -72,17 +90,27 @@
                         描述：</label>
                     <div class="formControls col-xs-8 col-sm-9">
                         <input type="text" id="website-description" name="website_description"
-                               placeholder="空制在80个汉字，160个字符以内" value=""
+                               placeholder="空制在80个汉字，160个字符以内" value="${systemBase.website_description !}"
                                class="input-text">
                     </div>
                 </div>
+
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-2">
+                        <span class="c-red">*</span>
+                        公告：</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <textarea class="textarea" name="website_noticeboard">${systemBase.website_noticeboard !}</textarea>
+                    </div>
+                </div>
+
                 <div class="row cl">
                     <label class="form-label col-xs-4 col-sm-2">
                         <span class="c-red">*</span>
                         上传目录配置：</label>
                     <div class="formControls col-xs-8 col-sm-9">
                         <input type="text" id="website-uploadfile" name="website_uploadfile" placeholder="默认为uploadfile"
-                               value=""
+                               value="${systemBase.website_uploadfile !}"
                                class="input-text">
                     </div>
                 </div>
@@ -92,21 +120,21 @@
                         底部版权信息：</label>
                     <div class="formControls col-xs-8 col-sm-9">
                         <input type="text" id="website-copyright" name="website_copyright"
-                               placeholder="&copy; 2016 H-ui.net" value=""
+                               placeholder="&copy; 2016 H-ui.net" value="${systemBase.website_copyright !}"
                                class="input-text">
                     </div>
                 </div>
                 <div class="row cl">
                     <label class="form-label col-xs-4 col-sm-2">备案号：</label>
                     <div class="formControls col-xs-8 col-sm-9">
-                        <input type="text" id="website-icp" name="website_icp" placeholder="京ICP备00000000号" value=""
+                        <input type="text" id="website-icp" name="website_icp" placeholder="京ICP备00000000号" value="${systemBase.website_icp !}"
                                class="input-text">
                     </div>
                 </div>
                 <div class="row cl">
                     <label class="form-label col-xs-4 col-sm-2">统计代码：</label>
                     <div class="formControls col-xs-8 col-sm-9">
-                        <textarea class="textarea" name="website_statscode"></textarea>
+                        <textarea class="textarea" name="website_statscode">${systemBase.website_statscode !}</textarea>
                     </div>
                 </div>
             </div>
@@ -128,37 +156,37 @@
                 <div class="row cl">
                     <label class="form-label col-xs-4 col-sm-2">邮件发送模式：</label>
                     <div class="formControls col-xs-8 col-sm-9">
-                        <input type="text" class="input-text" value="" id="website_smtptype" name="website_smtptype">
+                        <input type="text" class="input-text" value="${systemBase.website_smtptype !}" id="website_smtptype" name="website_smtptype">
                     </div>
                 </div>
                 <div class="row cl">
                     <label class="form-label col-xs-4 col-sm-2">SMTP服务器：</label>
                     <div class="formControls col-xs-8 col-sm-9">
-                        <input type="text" id="website_smtp" name="website_smtp" value="" class="input-text">
+                        <input type="text" id="website_smtp" name="website_smtp" value="${systemBase.website_smtp !}" class="input-text">
                     </div>
                 </div>
                 <div class="row cl">
                     <label class="form-label col-xs-4 col-sm-2">SMTP 端口：</label>
                     <div class="formControls col-xs-8 col-sm-9">
-                        <input type="text" class="input-text" value="" id="website_smtpport" name="website_smtpport">
+                        <input type="text" class="input-text" value="${systemBase.website_smtpport !}" id="website_smtpport" name="website_smtpport">
                     </div>
                 </div>
                 <div class="row cl">
                     <label class="form-label col-xs-4 col-sm-2">邮箱帐号：</label>
                     <div class="formControls col-xs-8 col-sm-9">
-                        <input type="text" class="input-text" value="" id="emailName" name="website_emailname">
+                        <input type="text" class="input-text" value="${systemBase.website_emailname !}" id="emailName" name="website_emailname">
                     </div>
                 </div>
                 <div class="row cl">
                     <label class="form-label col-xs-4 col-sm-2">邮箱密码：</label>
                     <div class="formControls col-xs-8 col-sm-9">
-                        <input type="password" id="email-password" name="website_emailpassword" class="input-text">
+                        <input type="password" id="email-password" name="website_emailpassword" value="${systemBase.website_emailpassword !}" class="input-text">
                     </div>
                 </div>
                 <div class="row cl">
                     <label class="form-label col-xs-4 col-sm-2">收件邮箱地址：</label>
                     <div class="formControls col-xs-8 col-sm-9">
-                        <input type="text" id="email-address" name="website_emailaddress" class="input-text">
+                        <input type="text" id="email-address" name="website_emailaddress" value="${systemBase.website_emailaddress !}" class="input-text">
                     </div>
                 </div>
             </div>
@@ -206,8 +234,12 @@
                 dataType: 'text',
                 data: $("#form-article-add").serialize(),
                 success: function (data) {
-                    if (data.length > 0)
-                        $("#responseText").text(data);
+                    var result=$.parseJSON(data);
+                    if (result['status']){
+                        layer.msg('修改成功!',{icon: 1,time:1000});
+                    }else{
+                        layer.msg('修改失败!',{icon: 2,time:1000});
+                    }
                 }
             };
             $.ajax(options);

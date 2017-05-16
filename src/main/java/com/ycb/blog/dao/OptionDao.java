@@ -2,6 +2,8 @@ package com.ycb.blog.dao;
 
 import com.ycb.blog.model.Option;
 
+import java.util.List;
+
 /**
  * ${DESCRIPTION}
  *
@@ -30,4 +32,9 @@ public interface OptionDao {
      */
     Option findByKey(String key);
 
+    /**
+     * 查询所有的基础信息
+     * @return
+     */
+    List<Option> getAllOptions();
 }
