@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
  * @author yangcb
  * @create 2017-05-11 17:19
  **/
-@SuppressWarnings("ALL")
 @Service
 public class UserServiceImpl implements UserService {
 

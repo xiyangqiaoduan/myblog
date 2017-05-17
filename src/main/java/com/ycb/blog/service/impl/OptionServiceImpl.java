@@ -31,6 +31,7 @@ public class OptionServiceImpl implements OptionService {
     private OptionDao optionDao;
 
     @Override
+    @CacheEvict(value = CACHE_NAME,key = CACHE_KEY)
     public void insertOrUpdate(List<Option> options) {
 
         if (options == null && options.isEmpty()) {

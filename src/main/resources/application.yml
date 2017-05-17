@@ -46,10 +46,11 @@ spring:
       connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=3000
       # 合并多个DruidDataSource的监控数据
       useGlobalDataSourceStat: false
-
-
-
-
+#配置ehcache缓存
+  cache:
+    cache-names: ehcache
+    ehcache:
+      config: classpath:ehcache.xml
 # mybatis
 mybatis:
   mapper-locations: classpath:/mybatis/*.xml
