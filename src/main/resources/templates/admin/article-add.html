@@ -21,7 +21,7 @@
     <link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin"/>
     <link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css"/>
 
-    <link rel="stylesheet" type="text/css" href="lib/simditor-2.3.6/styles/simditor.css" />
+    <link rel="stylesheet" type="text/css" href="lib/simditor-2.3.6/styles/simditor.css"/>
 
     <!--[if IE 6]>
     <script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js"></script>
@@ -35,17 +35,19 @@
 </head>
 <body>
 <article class="page-container">
-    <form class="form form-horizontal" id="form-article-add">
+    <form class="form form-horizontal" id="form-article-add" action="admin/article-add">
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>文章标题：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="articletitle" name="articletitle">
+                <input type="text" class="input-text" value="" placeholder="请输入文章标题" id="articleTitle"
+                       name="articleTitle">
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-2">文章摘要：</label>
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>文章摘要：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <textarea name="abstract" id="abstract" cols="" rows="" class="textarea" placeholder="说点什么...最少输入10个字符"
+                <textarea name="articleAbstract" id="abstract" cols="" rows="" class="textarea"
+                          placeholder="说点什么...最少输入10个字符"
                           datatype="*10-100" dragonfly="true" nullmsg="备注不能为空！"
                           onKeyUp="$.Huitextarealength(this,200)"></textarea>
                 <p class="textarea-numberbar"><em class="textarea-length">0</em>/200</p>
@@ -53,25 +55,32 @@
         </div>
 
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-2">关键词：</label>
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>关键词：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="keywords" name="keywords">
+                <input type="text" class="input-text" value="" placeholder="" id="keywords" name="articleKeywords">
             </div>
         </div>
-
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>标签：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" style="width:720px;" value="" placeholder="使用英文输入状态下的逗号进行分隔"
+                       id="articleTags" name="articleTags">
+                <button onClick="article_save();" class="btn btn-secondary radius" type="button">选择标签</button>
+            </div>
+        </div>
 
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">允许评论：</label>
             <div class="formControls col-xs-8 col-sm-9 skin-minimal">
                 <div class="check-box">
-                    <input type="checkbox" id="allowcomments" name="allowcomments" value="">
+                    <input type="checkbox" id="articleCommentable" name="articleCommentable" value="1">
                     <label for="checkbox-pinglun">&nbsp;</label>
                 </div>
             </div>
         </div>
 
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-2">文章内容：</label>
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>文章内容：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <textarea name="articleContent" id="articleContent" class="textarea" placeholder="说点什么...最少输入10个字符"
                           datatype="*10-500" dragonfly="true" nullmsg="内容不能为空！"
@@ -81,20 +90,21 @@
         </div>
 
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-2">链接：</label>
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>链接：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="keywords" name="keywords">
+                <input type="text" class="input-text" value="" placeholder="" id="articlePermalink"
+                       name="articlePermalink">
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">访问密码：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" value="" placeholder="" id="keywords" name="keywords">
+                <input type="text" class="input-text" value="" placeholder="" id="articleViewPwd" name="articleViewPwd">
             </div>
         </div>
         <div class="row cl">
             <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
-                <button onClick="article_save_submit();" class="btn btn-primary radius" type="submit"><i
+                <button class="btn btn-primary radius" type="submit"><i
                         class="Hui-iconfont">&#xe632;</i> 保存并提交审核
                 </button>
                 <button onClick="article_save();" class="btn btn-secondary radius" type="button"><i
@@ -129,18 +139,18 @@
 <script type="text/javascript">
     $(function () {
 
-       var toolbar = [ 'title', 'bold', 'italic', 'underline', 'strikethrough',
+        var toolbar = ['title', 'bold', 'italic', 'underline', 'strikethrough',
             'color', 'ol', 'ul', 'blockquote', 'code', 'table',
-            'link', 'image', 'hr',  'indent', 'outdent' ];
+            'link', 'image', 'hr', 'indent', 'outdent'];
 
 
         var editor = new Simditor({
             textarea: $('#articleContent'),
-            placeholder : '这里输入内容...',
-            toolbar : toolbar,  //工具栏
-            defaultImage : 'lib/simditor-2.3.6/images/image.png', //编辑器插入图片时使用的默认图片
-            upload : {
-                url : 'admin/fileupload', //文件上传的接口地址
+            placeholder: '这里输入内容...',
+            toolbar: toolbar,  //工具栏
+            defaultImage: 'lib/simditor-2.3.6/images/image.png', //编辑器插入图片时使用的默认图片
+            upload: {
+                url: 'admin/fileupload', //文件上传的接口地址
                 params: null, //键值对,指定文件上传接口的额外参数,上传的时候随文件一起提交
                 fileKey: 'fileDataFileName', //服务器端获取文件数据的参数名
                 connectionCount: 3,
@@ -160,37 +170,19 @@
                 articletitle: {
                     required: true,
                 },
-                articletitle2: {
-                    required: true,
-                },
-                articlecolumn: {
-                    required: true,
-                },
-                articletype: {
-                    required: true,
-                },
-                articlesort: {
+                abstract: {
                     required: true,
                 },
                 keywords: {
                     required: true,
                 },
-                abstract: {
+                articleTags: {
                     required: true,
                 },
-                author: {
+                articleContent: {
                     required: true,
                 },
-                sources: {
-                    required: true,
-                },
-                allowcomments: {
-                    required: true,
-                },
-                commentdatemin: {
-                    required: true,
-                },
-                commentdatemax: {
+                articlePermalink: {
                     required: true,
                 },
 
@@ -199,10 +191,26 @@
             focusCleanup: true,
             success: "valid",
             submitHandler: function (form) {
-                //$(form).ajaxSubmit();
-                var index = parent.layer.getFrameIndex(window.name);
-                //parent.$('.btn-refresh').click();
-                parent.layer.close(index);
+                $(form).ajaxSubmit({
+                    dataType:"json",
+                    success:function(data){
+                        if(data["status"]){
+                            var index = parent.layer.getFrameIndex(window.name);
+                            layer.msg(data["errMsg"],{icon: 1,time:1000});
+//                            parent.$('.btn-refresh').click();
+                            setTimeout(function(){
+                                parent.location.reload();
+                                layer_close();
+                            },1000);
+                           // parent.layer.close(index);
+                        }else{
+                            layer.msg(data["errMsg"],{icon: 1,time:1000});
+                        }
+                    }
+
+
+                });
+
             }
         });
 
@@ -306,7 +314,6 @@
         });
 
     });
-
 
 
 </script>

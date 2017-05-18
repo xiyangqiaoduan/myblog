@@ -20,6 +20,12 @@ public class Article {
      *文章描述
      */
     private String articleAbstract;
+
+    /**
+     * 文章关键词
+     */
+    private String articleKeywords;
+
     /**
      * 文章内容
      */
@@ -250,5 +256,39 @@ public class Article {
 
     public void setArticleAuthorEmail(String articleAuthorEmail) {
         this.articleAuthorEmail = articleAuthorEmail;
+    }
+
+    public String getArticleKeywords() {
+        return articleKeywords;
+    }
+
+    public void setArticleKeywords(String articleKeywords) {
+        this.articleKeywords = articleKeywords;
+    }
+
+    @Override
+    public String toString() {
+        return "Article{" +
+                "id='" + id + '\'' +
+                ", articleTitle='" + articleTitle + '\'' +
+                ", articleAbstract='" + articleAbstract + '\'' +
+                ", articleKeywords='" + articleKeywords + '\'' +
+                ", articleContent='" + articleContent + '\'' +
+                ", articleCreateDate=" + articleCreateDate +
+                ", articleUpdateDate=" + articleUpdateDate +
+                ", articleTags='" + articleTags + '\'' +
+                ", articleCommentCount=" + articleCommentCount +
+                ", articleViewCount=" + articleViewCount +
+                ", articleSignId='" + articleSignId + '\'' +
+                ", articlePermalink='" + articlePermalink + '\'' +
+                ", articlePutTop=" + articlePutTop +
+                ", articleIsPublished=" + articleIsPublished +
+                ", articleHadBeenPublished=" + articleHadBeenPublished +
+                ", articleRandomDouble=" + articleRandomDouble +
+                ", articleCommentable=" + articleCommentable +
+                ", articleViewPwd='" + articleViewPwd + '\'' +
+                ", articleEditorType='" + articleEditorType + '\'' +
+                ", articleAuthorEmail='" + articleAuthorEmail + '\'' +
+                '}';
     }
 }
