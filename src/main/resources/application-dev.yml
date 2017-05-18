@@ -1,2 +1,5 @@
 server:
     port: 80
+    jsp-servlet:
+      init-parameters:
+        development: true

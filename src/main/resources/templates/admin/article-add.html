@@ -73,9 +73,9 @@
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">文章内容：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <textarea name="abstract" id="" class="textarea" cols="" rows="" tyle="width:100%;height:400px;" placeholder="说点什么...最少输入10个字符"
-                          datatype="*10-100" dragonfly="true" nullmsg="内容不能为空！"
-                          onKeyUp="$.Huitextarealength(this,1000)"></textarea>
+                <textarea name="articleContent" id="articleContent" class="textarea" placeholder="说点什么...最少输入10个字符"
+                          datatype="*10-500" dragonfly="true" nullmsg="内容不能为空！"
+                          onKeyUp="$.Huitextarealength(this,500)"></textarea>
 
             </div>
         </div>
@@ -86,7 +86,12 @@
                 <input type="text" class="input-text" value="" placeholder="" id="keywords" name="keywords">
             </div>
         </div>
-
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">访问密码：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text" value="" placeholder="" id="keywords" name="keywords">
+            </div>
+        </div>
         <div class="row cl">
             <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
                 <button onClick="article_save_submit();" class="btn btn-primary radius" type="submit"><i
@@ -102,7 +107,7 @@
 </article>
 
 <!--_footer 作为公共模版分离出去-->
-<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="lib/simditor-2.3.6/scripts/jquery.min.js"></script>
 <script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
 <script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
 <script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
@@ -115,18 +120,32 @@
 <script type="text/javascript" src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
 <script type="text/javascript" src="lib/webuploader/0.1.5/webuploader.min.js"></script>
 
-<script type="text/javascript" src="lib/simditor-2.3.6/scripts/module.js"></script>
-<script type="text/javascript" src="lib/simditor-2.3.6/scripts/hotkeys.js"></script>
-<script type="text/javascript" src="lib/simditor-2.3.6/scriptsuploader.js"></script>
-<script type="text/javascript" src="lib/simditor-2.3.6/scripts/simditor.js"></script>
+<script type="text/javascript" src="lib/simditor-2.3.6/scripts/module.min.js"></script>
+<script type="text/javascript" src="lib/simditor-2.3.6/scripts/hotkeys.min.js"></script>
+<script type="text/javascript" src="lib/simditor-2.3.6/scripts/uploader.min.js"></script>
+<script type="text/javascript" src="lib/simditor-2.3.6/scripts/simditor.min.js"></script>
 
 
 <script type="text/javascript">
     $(function () {
 
+       var toolbar = [ 'title', 'bold', 'italic', 'underline', 'strikethrough',
+            'color', 'ol', 'ul', 'blockquote', 'code', 'table',
+            'link', 'image', 'hr',  'indent', 'outdent' ];
+
+
         var editor = new Simditor({
-            textarea: $('.textarea')
-            //optional options
+            textarea: $('#articleContent'),
+            placeholder : '这里输入内容...',
+            toolbar : toolbar,  //工具栏
+            defaultImage : 'lib/simditor-2.3.6/images/image.png', //编辑器插入图片时使用的默认图片
+            upload : {
+                url : 'admin/fileupload', //文件上传的接口地址
+                params: null, //键值对,指定文件上传接口的额外参数,上传的时候随文件一起提交
+                fileKey: 'fileDataFileName', //服务器端获取文件数据的参数名
+                connectionCount: 3,
+                leaveConfirm: '正在上传文件'
+            }
         });
 
         $('.skin-minimal input').iCheck({
