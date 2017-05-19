@@ -9,7 +9,7 @@
           blog_article
         (id,article_title,article_keywords,article_abstract,article_content,article_create_date,article_update_date,article_tags,article_comment_count,article_view_count,article_sign_id,article_perma_link,article_puttop,article_is_published,article_had_been_published,article_random_double,article_commentable,article_view_pwd,article_editor_type,article_author_rmail)
          values
-         (#{id},#{articleTitle},#{articleAbstract},#{articleKeywords},#{articleContent},#{articleCreateDate},#{articleUpdateDate},#{articleTags},#{articleCommentCount},#{articleViewCount},#{articleSignId},#{articlePermalink},#{articlePutTop},#{articleIsPublished},#{articleHadBeenPublished},#{articleRandomDouble},#{articleCommentable},#{articleViewPwd},#{articleEditorType},#{articleAuthorEmail})
+         (#{id},#{articleTitle},#{articleAbstract},#{articleKeywords},#{articleContent},now(),now(),#{articleTags},#{articleCommentCount},#{articleViewCount},#{articleSignId},#{articlePermalink},#{articlePutTop},#{articleIsPublished},#{articleHadBeenPublished},#{articleRandomDouble},#{articleCommentable},#{articleViewPwd},#{articleEditorType},#{articleAuthorEmail})
     </insert>
 
 

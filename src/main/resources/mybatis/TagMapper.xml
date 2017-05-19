@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ycb.blog.dao.TagDao" >
+
+    <!-- 新增标签 -->
+    <insert id="insertTag" parameterType="Tag" >
+        insert into blog_tag (id,tag_title,tag_reference_count,tag_published_refcount) values(#{id},#{tagTitle},#{tagReferenceCount},#{tagPublishedRefCount})
+    </insert>
+
+    <!--  更新标签 -->
+    <update id="update" parameterType="Tag">
+        update
+          blog_tag
+        <set>
+            <if test="tagTitle !=null and tagTitle !=''">
+                tag_title=#{tagTitle},
+            </if>
+            <if test="tagReferenceCount !=0">
+                tag_reference_count=#{tagReferenceCount},
+            </if>
+            <if test="tagPublishedRefCount !=0">
+                tag_published_refcount=#{tagPublishedRefCount},
+            </if>
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <!-- 根据标签名称查询标签-->
+    <select id="findByTagTitle" resultType="Tag">
+        SELECT * FROM blog_tag WHERE tag_title=#{tagTitle}  LIMIT 0,1
+    </select>
+
+
+</mapper>

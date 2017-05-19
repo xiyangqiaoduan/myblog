@@ -9,6 +9,7 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -126,6 +127,16 @@ public class DruidConfig {
         return datasource;
     }
 
+
+//    /**
+//     * 配置事务管理
+//     * @return
+//     */
+//    @Bean
+//    @Primary
+//    public DataSourceTransactionManager transactionManager(){
+//        return  new DataSourceTransactionManager(dataSource());
+//    }
 
 
 }

@@ -49,7 +49,7 @@ public class ArticleController extends BaseController {
         }catch (Exception e){
             LOG.error("新增博文失败：",e);
             Result<String> result = new Result<String>();
-            result.setStatus(true);
+            result.setStatus(false);
             result.setErrMsg("新建博文失败");
             result.setErrCode(9999);
             return result;
