@@ -10,11 +10,13 @@ import com.ycb.blog.service.ArticleService;
 import com.ycb.blog.service.ArticleTagService;
 import com.ycb.blog.service.TagService;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
+import java.util.List;
 
 /**
  * 博文管理实现
@@ -24,6 +26,9 @@ import java.util.Date;
  **/
 @Service
 public class ArticleServiceImpl implements ArticleService {
+
+    private static final Logger LOG= LoggerFactory.getLogger(ArticleServiceImpl.class);
+
 
     @Autowired
     private ArticleDao articleDao;
@@ -74,5 +79,16 @@ public class ArticleServiceImpl implements ArticleService {
 
 
         return 0;
+    }
+
+    @Override
+    public List<Article> getAllArticles(Article article,String start,String end) {
+
+        return articleDao.getAllArticles(article,start,end);
+    }
+
+    @Override
+    public long getArticleCount(Article article) {
+        return articleDao.getArticleCount(article);
     }
 }

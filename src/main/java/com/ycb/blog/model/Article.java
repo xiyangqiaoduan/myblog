@@ -10,14 +10,14 @@ import java.util.Date;
  **/
 public class Article {
 
-    private String  id;
+    private String id;
     /**
      * 文章标题
      */
     private String articleTitle;
 
     /**
-     *文章描述
+     * 文章描述
      */
     private String articleAbstract;
 
@@ -59,7 +59,7 @@ public class Article {
     private String articleSignId;
 
     /**
-     *文章连接
+     * 文章连接
      */
     private String articlePermalink;
 
@@ -102,8 +102,8 @@ public class Article {
     private String articleAuthorEmail;
 
 
-    public Article(){}
-
+    public Article() {
+    }
 
 
     public String getId() {

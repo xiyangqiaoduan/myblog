@@ -3,12 +3,16 @@ package com.ycb.blog.web.controller.admin;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.ycb.blog.common.util.base.BaseController;
 import com.ycb.blog.dto.Result;
 import com.ycb.blog.model.Article;
 import com.ycb.blog.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,11 +34,10 @@ public class ArticleController extends BaseController {
     private ArticleService articleService;
     @RequestMapping(value = "article-list", method = RequestMethod.POST)
     @ResponseBody
-    public String articleList(@RequestBody String body) {
-
+    public String articleList(@RequestBody String body, Article article,String start,String end, ModelMap modelMap) {
         LOG.debug("分页请求数据 body={}", body);
+        LOG.debug("传递参数为article = {}, start = {},end={}",article,start,end);
         JSONArray jsonarray = JSON.parseArray(body);
-
         String sEcho = null;
         int iDisplayStart = 0; // 起始索引
         int iDisplayLength = 0; // 每页显示的行数
@@ -43,32 +46,22 @@ public class ArticleController extends BaseController {
             JSONObject obj = (JSONObject) jsonarray.get(i);
             if (obj.get("name").equals("sEcho"))
                 sEcho = obj.get("value").toString();
-
             if (obj.get("name").equals("iDisplayStart"))
                 iDisplayStart = obj.getIntValue("value");
-
             if (obj.get("name").equals("iDisplayLength"))
                 iDisplayLength = obj.getIntValue("value");
         }
 
+        PageHelper.startPage(iDisplayStart,iDisplayLength);
+        List<Article> list=articleService.getAllArticles(article,start,end);
+        PageInfo<Article> pageInfo=new PageInfo<Article>(list);
+        LOG.debug("分页测试pageinfo ={}",pageInfo.toString());
 
-        // 生成20条测试数据
-        List<Map<String,Object>> lst = new ArrayList<Map<String,Object>>();
-        for (int i = 0; i < 20; i++) {
-            Map<String,Object> map=new HashMap<String,Object>();
-           // String[] d = {"co1_data" + i};
-            map.put("id","co1_data" + i);
-            map.put("articleTitle","SpringBoot Demo0"+i);
-            map.put("articleUpdateDate",new Date());
-            map.put("articleViewCount",i*new Random(100).nextInt());
-            map.put("articleIsPublished",i%2>0?1:0);
-            lst.add(map);
-        }
         JSONObject getObj = new JSONObject();
         getObj.put("sEcho", sEcho);// 不知道这个值有什么用,有知道的请告知一下
-        getObj.put("iTotalRecords", lst.size());//实际的行数
-        getObj.put("iTotalDisplayRecords", lst.size());//显示的行数,这个要和上面写的一致
-        getObj.put("aaData", lst.subList(iDisplayStart,iDisplayStart + iDisplayLength));//要以JSON格式返回
+        getObj.put("iTotalRecords", pageInfo.getTotal());//实际的行数
+        getObj.put("iTotalDisplayRecords", pageInfo.getTotal());//显示的行数,这个要和上面写的一致
+        getObj.put("aaData", pageInfo.getList());//要以JSON格式返回
         return getObj.toString();
     }
 
@@ -79,7 +72,9 @@ public class ArticleController extends BaseController {
     }
 
     @RequestMapping(value = "article-add.html", method = RequestMethod.GET)
-    public String addArticlePage() {
+    public String addArticlePage(Article article,Model model) {
+        long count=articleService.getArticleCount(article);
+        model.addAttribute("count",count);
         return "admin/article-add";
     }
 

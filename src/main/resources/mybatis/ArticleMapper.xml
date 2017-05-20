@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.ycb.blog.dao.ArticleDao" >
+<mapper namespace="com.ycb.blog.dao.ArticleDao">
 
 
     <!--新增博文-->
@@ -12,5 +12,21 @@
          (#{id},#{articleTitle},#{articleAbstract},#{articleKeywords},#{articleContent},now(),now(),#{articleTags},#{articleCommentCount},#{articleViewCount},#{articleSignId},#{articlePermalink},#{articlePutTop},#{articleIsPublished},#{articleHadBeenPublished},#{articleRandomDouble},#{articleCommentable},#{articleViewPwd},#{articleEditorType},#{articleAuthorEmail})
     </insert>
 
+    <select id="getAllArticles" resultType="Article">
+        SELECT * FROM blog_article
+        <where>
+            <if test="article.articleTitle!=null and article.articleTitle !=''">
+                article_title LIKE concat ("%",#{article.articleTitle},"%")
+            </if>
+            <if test="start!=null and end !=null">
+                AND date_format(article_update_date,'%Y-%m-%d') BETWEEN #{start} AND #{end}
+            </if>
+        </where>
+        ORDER BY article_update_date DESC
+    </select>
+    <!-- 查询总博文数-->
+    <select id="getArticleCount" parameterType="Article">
+        SELECT  COUNT(0) FROM blog_article
+    </select>
 
 </mapper>

@@ -56,6 +56,14 @@ mybatis:
   mapper-locations: classpath:/mybatis/*.xml
   type-aliases-package: com.ycb.blog.model
   config-location: classpath:mybatis-config.xml
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
+
 logging:
   config: classpath:logback-spring.xml
 
