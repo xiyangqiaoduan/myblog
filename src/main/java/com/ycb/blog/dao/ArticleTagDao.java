@@ -2,6 +2,8 @@ package com.ycb.blog.dao;
 
 import com.ycb.blog.model.ArticleTag;
 
+import java.util.List;
+
 /**
  * ${DESCRIPTION}
  *
@@ -12,4 +14,10 @@ public interface ArticleTagDao {
 
     int insertArticleTag(ArticleTag articleTag);
 
+    /**
+     * 查询文章关联的标签ID
+     * @param articleId
+     * @return
+     */
+    List<ArticleTag> findByArticleId(String articleId);
 }

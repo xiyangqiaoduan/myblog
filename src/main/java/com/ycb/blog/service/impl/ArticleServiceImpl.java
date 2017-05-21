@@ -2,6 +2,8 @@ package com.ycb.blog.service.impl;
 
 import com.ycb.blog.common.util.IDUtil;
 import com.ycb.blog.dao.ArticleDao;
+import com.ycb.blog.enums.ArticlePublishe;
+import com.ycb.blog.enums.ArticleStatusEnum;
 import com.ycb.blog.enums.EditorTypeEnum;
 import com.ycb.blog.model.Article;
 import com.ycb.blog.model.ArticleTag;
@@ -27,7 +29,7 @@ import java.util.List;
 @Service
 public class ArticleServiceImpl implements ArticleService {
 
-    private static final Logger LOG= LoggerFactory.getLogger(ArticleServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ArticleServiceImpl.class);
 
 
     @Autowired
@@ -46,6 +48,7 @@ public class ArticleServiceImpl implements ArticleService {
         article.setArticleSignId(IDUtil.getIPID());
         article.setArticleEditorType(EditorTypeEnum.SIMDITOR.getCode());
         article.setId(articleId);
+        article.setArticleStatus(ArticleStatusEnum.NOT_DEL.getCode());
         articleDao.insert(article);
 
         if (!StringUtils.isEmpty(article.getArticleTags())) {
@@ -82,13 +85,37 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> getAllArticles(Article article,String start,String end) {
+    public List<Article> getAllArticles(Article article, String start, String end) {
 
-        return articleDao.getAllArticles(article,start,end);
+        return articleDao.getAllArticles(article, start, end);
     }
 
     @Override
     public long getArticleCount(Article article) {
         return articleDao.getArticleCount(article);
+    }
+
+    @Override
+    public int updateArticle(Article article) {
+        return articleDao.updateArticle(article);
+    }
+
+    @Override
+    @Transactional
+    public int delArticle(String id) {
+        Article article = new Article();
+        article.setId(id);
+        article.setArticleStatus(ArticleStatusEnum.DEL.getCode());
+        article.setArticleIsPublished(ArticlePublishe.FAIL_PUBLISHE.getCode());
+        articleDao.updateArticle(article);
+        List<ArticleTag> articleTags = articleTagService.findByArticleId(id);
+
+        if(articleTags!=null && !articleTags.isEmpty()){
+
+            tagService.batchUpdateTag(articleTags);
+
+        }
+
+        return 0;
     }
 }

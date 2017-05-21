@@ -15,8 +15,9 @@
     <select id="getAllArticles" resultType="Article">
         SELECT * FROM blog_article
         <where>
+            article_status=1
             <if test="article.articleTitle!=null and article.articleTitle !=''">
-                article_title LIKE concat ("%",#{article.articleTitle},"%")
+                AND article_title LIKE concat ("%",#{article.articleTitle},"%")
             </if>
             <if test="start!=null and end !=null">
                 AND date_format(article_update_date,'%Y-%m-%d') BETWEEN #{start} AND #{end}
@@ -28,5 +29,16 @@
     <select id="getArticleCount" parameterType="Article">
         SELECT  COUNT(0) FROM blog_article
     </select>
+    <update id="updateArticle" parameterType="Article">
+        UPDATE  blog_article
+        <set>
+            article_is_published=#{articleIsPublished},
+            article_status=#{articleStatus},
+            article_update_date=now()
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
 
 </mapper>

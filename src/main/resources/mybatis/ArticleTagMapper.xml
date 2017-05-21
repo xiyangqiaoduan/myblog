@@ -7,5 +7,9 @@
       INSERT  INTO blog_article_tag (id,article_id,tag_id) VALUES (#{id},#{articleId},#{tagId})
     </insert>
 
+    <!-- 查询博文关联的标签-->
+    <select id="findByArticleId" resultType="ArticleTag">
+        SELECT  * FROM  blog_article_tag WHERE  article_id=#{articleId}
+    </select>
 
 </mapper>

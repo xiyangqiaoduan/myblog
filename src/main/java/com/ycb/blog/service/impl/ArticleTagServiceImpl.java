@@ -6,6 +6,8 @@ import com.ycb.blog.service.ArticleTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * ${DESCRIPTION}
  *
@@ -21,5 +23,10 @@ public class ArticleTagServiceImpl implements ArticleTagService {
     @Override
     public int insertArticleTag(ArticleTag articleTag) {
         return articleTagDao.insertArticleTag(articleTag);
+    }
+
+    @Override
+    public List<ArticleTag> findByArticleId(String articleId) {
+        return articleTagDao.findByArticleId(articleId);
     }
 }

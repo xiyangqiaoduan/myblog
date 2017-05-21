@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
@@ -101,6 +98,37 @@ public class ArticleController extends BaseController {
 
 
     }
+
+    @RequestMapping("article/changeArticleStatus/{articleIsPublished}/{id}")
+    @ResponseBody
+    public Result<String> changeArticleStatus(@PathVariable int articleIsPublished,@PathVariable String id){
+        LOG.debug("request params: articleIsPublished ={},id={}",articleIsPublished,id);
+        Article article=new Article();
+        article.setArticleIsPublished(articleIsPublished);
+        article.setId(id);
+        articleService.updateArticle(article);
+        Result<String> result = new Result<String>();
+        result.setStatus(true);
+        result.setErrCode(0000);
+        result.setErrMsg("success");
+        return  result;
+
+    }
+
+    @RequestMapping("article/delArticle/{id}")
+    @ResponseBody
+    public Result<String> delArticle(@PathVariable String id){
+        LOG.debug("request params: id={}",id);
+
+        articleService.delArticle(id);
+        Result<String> result = new Result<String>();
+        result.setStatus(true);
+        result.setErrCode(0000);
+        result.setErrMsg("success");
+        return  result;
+
+    }
+
 
 
 }

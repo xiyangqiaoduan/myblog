@@ -1,5 +1,6 @@
 package com.ycb.blog.dao;
 
+import com.ycb.blog.enums.ArticleStatusEnum;
 import com.ycb.blog.model.Article;
 import org.apache.ibatis.annotations.Param;
 
@@ -28,4 +29,12 @@ public interface ArticleDao {
      * @return
      */
     long getArticleCount(Article article);
+
+    /**
+     * 更新博文信息
+     * @param article
+     * @return
+     */
+    int updateArticle(Article article);
+
 }

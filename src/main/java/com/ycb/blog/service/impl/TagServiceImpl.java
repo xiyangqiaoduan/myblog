@@ -1,10 +1,13 @@
 package com.ycb.blog.service.impl;
 
 import com.ycb.blog.dao.TagDao;
+import com.ycb.blog.model.ArticleTag;
 import com.ycb.blog.model.Tag;
 import com.ycb.blog.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 标签service实现
@@ -32,5 +35,10 @@ public class TagServiceImpl implements TagService {
     @Override
     public int update(Tag tag) {
         return tagDao.update(tag);
+    }
+
+    @Override
+    public int batchUpdateTag(List<ArticleTag> articleTags) {
+        return tagDao.batchUpdateTag(articleTags);
     }
 }

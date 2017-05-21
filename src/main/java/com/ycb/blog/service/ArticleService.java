@@ -27,4 +27,17 @@ public interface ArticleService {
     * @return
     */
    long getArticleCount(Article article);
+
+   /**
+    * 更新博文状态
+    * @param article
+    * @return
+    */
+   int updateArticle(Article article);
+
+   /**
+    * 删除博文
+    * @param id
+    */
+   int delArticle(String id);
 }

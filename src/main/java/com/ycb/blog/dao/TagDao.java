@@ -1,6 +1,9 @@
 package com.ycb.blog.dao;
 
+import com.ycb.blog.model.ArticleTag;
 import com.ycb.blog.model.Tag;
+
+import java.util.List;
 
 /**
  * TAG 标签 DAO
@@ -29,4 +32,10 @@ public interface TagDao {
      */
     int update(Tag tag);
 
+    /**
+     * 批量更新标签
+     * @param articleTags
+     * @return
+     */
+    int batchUpdateTag(List<ArticleTag> articleTags);
 }

@@ -33,4 +33,18 @@
     </select>
 
 
+    <!--批量更新-->
+    <update id="batchUpdateTag"  parameterType="java.util.List">
+
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update blog_tag
+            set
+            tag_published_refcount=tag_published_refcount-1
+            where id= #{item.tagId}
+        </foreach>
+
+    </update>
+
+
+
 </mapper>

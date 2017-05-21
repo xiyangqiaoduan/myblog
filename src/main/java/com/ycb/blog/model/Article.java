@@ -100,6 +100,10 @@ public class Article {
      * 作者email
      */
     private String articleAuthorEmail;
+    /**
+     * 文章状态 0-删除 1-未删除
+     */
+    private int articleStatus;
 
 
     public Article() {
@@ -264,6 +268,14 @@ public class Article {
 
     public void setArticleKeywords(String articleKeywords) {
         this.articleKeywords = articleKeywords;
+    }
+
+    public int getArticleStatus() {
+        return articleStatus;
+    }
+
+    public void setArticleStatus(int articleStatus) {
+        this.articleStatus = articleStatus;
     }
 
     @Override

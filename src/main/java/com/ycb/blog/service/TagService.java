@@ -1,6 +1,9 @@
 package com.ycb.blog.service;
 
+import com.ycb.blog.model.ArticleTag;
 import com.ycb.blog.model.Tag;
+
+import java.util.List;
 
 /**
  * 标签service
@@ -30,4 +33,11 @@ public interface TagService {
      * @return
      */
     int update(Tag tag);
+
+    /**
+     * 批量更新标签
+     * @param articleTags
+     * @return
+     */
+    int batchUpdateTag(List<ArticleTag> articleTags);
 }
