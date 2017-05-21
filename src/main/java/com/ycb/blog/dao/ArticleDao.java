@@ -2,6 +2,7 @@ package com.ycb.blog.dao;
 
 import com.ycb.blog.enums.ArticleStatusEnum;
 import com.ycb.blog.model.Article;
+import com.ycb.blog.model.Tag;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -37,4 +38,25 @@ public interface ArticleDao {
      */
     int updateArticle(Article article);
 
+    /**
+     * 根据文章id  以及发表状态获取文章详情
+     * @param id
+     * @param articleIsPublished
+     * @return
+     */
+    Article findByArticleId(@Param("id") String id,@Param("articleIsPublished") int articleIsPublished);
+
+    /**
+     * 根据标签查询文章列表
+     * @param tag
+     * @return
+     */
+    List<Article> queryArticleByTag(Tag tag);
+
+    /**
+     * 更新文章浏览数
+     * @param id
+     * @return
+     */
+    int articleViewCount(String id);
 }

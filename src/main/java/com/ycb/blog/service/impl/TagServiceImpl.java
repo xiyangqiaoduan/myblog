@@ -1,6 +1,7 @@
 package com.ycb.blog.service.impl;
 
 import com.ycb.blog.dao.TagDao;
+import com.ycb.blog.model.Article;
 import com.ycb.blog.model.ArticleTag;
 import com.ycb.blog.model.Tag;
 import com.ycb.blog.service.TagService;
@@ -41,4 +42,5 @@ public class TagServiceImpl implements TagService {
     public int batchUpdateTag(List<ArticleTag> articleTags) {
         return tagDao.batchUpdateTag(articleTags);
     }
+
 }

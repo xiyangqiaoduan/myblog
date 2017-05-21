@@ -1,5 +1,6 @@
 package com.ycb.blog.service;
 
+import com.ycb.blog.model.Article;
 import com.ycb.blog.model.ArticleTag;
 import com.ycb.blog.model.Tag;
 
@@ -40,4 +41,6 @@ public interface TagService {
      * @return
      */
     int batchUpdateTag(List<ArticleTag> articleTags);
+
+
 }

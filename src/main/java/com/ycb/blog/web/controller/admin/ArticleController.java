@@ -30,11 +30,12 @@ public class ArticleController extends BaseController {
 
     @Autowired
     private ArticleService articleService;
+
     @RequestMapping(value = "article-list", method = RequestMethod.POST)
     @ResponseBody
-    public String articleList(@RequestBody String body, Article article,String start,String end, ModelMap modelMap) {
+    public String articleList(@RequestBody String body, Article article, String start, String end, ModelMap modelMap) {
         LOG.debug("分页请求数据 body={}", body);
-        LOG.debug("传递参数为article = {}, start = {},end={}",article,start,end);
+        LOG.debug("传递参数为article = {}, start = {},end={}", article, start, end);
         JSONArray jsonarray = JSON.parseArray(body);
         String sEcho = null;
         int iDisplayStart = 0; // 起始索引
@@ -50,10 +51,10 @@ public class ArticleController extends BaseController {
                 iDisplayLength = obj.getIntValue("value");
         }
 
-        PageHelper.startPage(iDisplayStart,iDisplayLength);
-        List<Article> list=articleService.getAllArticles(article,start,end);
-        PageInfo<Article> pageInfo=new PageInfo<Article>(list);
-        LOG.debug("分页测试pageinfo ={}",pageInfo.toString());
+        PageHelper.startPage(iDisplayStart, iDisplayLength);
+        List<Article> list = articleService.getAllArticles(article, start, end);
+        PageInfo<Article> pageInfo = new PageInfo<Article>(list);
+        LOG.debug("分页测试pageinfo ={}", pageInfo.toString());
 
         JSONObject getObj = new JSONObject();
         getObj.put("sEcho", sEcho);// 不知道这个值有什么用,有知道的请告知一下
@@ -70,13 +71,11 @@ public class ArticleController extends BaseController {
     }
 
     @RequestMapping(value = "article-add.html", method = RequestMethod.GET)
-    public String addArticlePage(Article article,Model model) {
-        long count=articleService.getArticleCount(article);
-        model.addAttribute("count",count);
+    public String addArticlePage(Article article, Model model) {
         return "admin/article-add";
     }
 
-    @RequestMapping(value = "article-add", method = RequestMethod.GET)
+    @RequestMapping(value = "article-add")
     @ResponseBody
     public Result<String> addArticle(Article article) {
         LOG.debug("新增博文，article {}", article.toString());
@@ -102,9 +101,9 @@ public class ArticleController extends BaseController {
 
     @RequestMapping("article/changeArticleStatus/{articleIsPublished}/{id}")
     @ResponseBody
-    public Result<String> changeArticleStatus(@PathVariable int articleIsPublished,@PathVariable String id){
-        LOG.debug("request params: articleIsPublished ={},id={}",articleIsPublished,id);
-        Article article=new Article();
+    public Result<String> changeArticleStatus(@PathVariable int articleIsPublished, @PathVariable String id) {
+        LOG.debug("request params: articleIsPublished ={},id={}", articleIsPublished, id);
+        Article article = new Article();
         article.setArticleIsPublished(articleIsPublished);
         article.setId(id);
         article.setArticleStatus(ArticleStatusEnum.NOT_DEL.getCode());
@@ -113,24 +112,23 @@ public class ArticleController extends BaseController {
         result.setStatus(true);
         result.setErrCode(0000);
         result.setErrMsg("success");
-        return  result;
+        return result;
 
     }
 
     @RequestMapping("article/delArticle/{id}")
     @ResponseBody
-    public Result<String> delArticle(@PathVariable String id){
-        LOG.debug("request params: id={}",id);
+    public Result<String> delArticle(@PathVariable String id) {
+        LOG.debug("request params: id={}", id);
 
         articleService.delArticle(id);
         Result<String> result = new Result<String>();
         result.setStatus(true);
         result.setErrCode(0000);
         result.setErrMsg("success");
-        return  result;
+        return result;
 
     }
-
 
 
 }

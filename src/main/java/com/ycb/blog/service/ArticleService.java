@@ -1,6 +1,8 @@
 package com.ycb.blog.service;
 
+import com.ycb.blog.enums.ArticlePublisheEnum;
 import com.ycb.blog.model.Article;
+import com.ycb.blog.model.Tag;
 
 import java.util.List;
 
@@ -40,4 +42,25 @@ public interface ArticleService {
     * @param id
     */
    int delArticle(String id);
+
+   /**
+    * 根据文章id  以及发表状态获取文章详情
+    * @param id
+    * @param articleIsPublished
+    * @return
+    */
+    Article findByArticleId(String id, int articleIsPublished);
+   /**
+    * 根据标签查询文章信息
+    * @param tag
+    * @return
+    */
+   List<Article> queryArticleByTag(Tag tag);
+
+   /**
+    * 更新文章浏览数
+    * @param id
+    * @return
+    */
+   int articleViewCount(String id);
 }

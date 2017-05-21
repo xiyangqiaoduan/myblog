@@ -1,0 +1,23 @@
+<#include "macro-head.html">
+<!DOCTYPE html>
+<html>
+    <head>
+        <@head title="${systemMap.website_title}">
+            <meta name="keywords" content="${systemMap.website_keywords}"/>
+            <meta name="description" content="${systemMap.website_description}"/>
+        </@head>
+    </head>
+    <body>
+        <#include "header.html">
+       <div class="wrapper">
+            <div class="main-wrap">
+                <main>
+                    <#include "article-list.html">
+                </main>
+               <#-- <#include "side.ftl">-->
+            </div>
+        </div>
+
+        <#include "footer.html">
+    </body>
+</html>

@@ -30,7 +30,7 @@
         SELECT  COUNT(0) FROM blog_article
     </select>
     <update id="updateArticle" parameterType="Article">
-        UPDATE  blog_article
+        UPDATE blog_article
         <set>
             article_is_published=#{articleIsPublished},
             article_status=#{articleStatus},
@@ -39,6 +39,23 @@
         <where>
             id=#{id}
         </where>
+    </update>
+
+   <!--  根据文章id  以及发表状态获取文章详情  -->
+    <select id="findByArticleId" resultType="Article">
+        SELECT * FROM  blog_article WHERE  id=#{id} AND article_is_published=#{articleIsPublished} AND article_status=1
+    </select>
+
+<!--根据标签id查询文章列表-->
+    <select id="queryArticleByTag" resultType="Article">
+        SELECT * FROM  blog_article  ba,blog_article_tag bat WHERE  bat.tag_id=#{id} AND bat.article_id=ba.id
+    </select>
+
+
+    <update id="articleViewCount" >
+
+        UPDATE  blog_article SET  article_view_count=article_view_count+1 WHERE  id=#{id}
+
     </update>
 
 </mapper>

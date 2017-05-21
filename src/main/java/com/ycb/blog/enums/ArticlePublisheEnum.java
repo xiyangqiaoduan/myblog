@@ -6,14 +6,14 @@ package com.ycb.blog.enums;
  * @author yangcb
  * @create 2017-05-21 12:08
  **/
-public enum ArticlePublishe {
+public enum ArticlePublisheEnum {
 
    SUCCESS_PUBLISHE(1),FAIL_PUBLISHE(0);
 
 
     private int code;
 
-    ArticlePublishe(int code) {
+    ArticlePublisheEnum(int code) {
         this.code = code;
     }
 

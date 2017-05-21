@@ -33,7 +33,7 @@ spring:
         exposeRequestAttributes: true
         exposeSessionAttributes: true
         exposeSpringMacroHelpers: false
-        suffix: .ftl
+        suffix: .html
         templateEncoding: UTF-8
         templateLoaderPath: classpath:/templates/
         request-context-attribute: request

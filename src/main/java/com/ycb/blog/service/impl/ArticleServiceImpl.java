@@ -2,7 +2,7 @@ package com.ycb.blog.service.impl;
 
 import com.ycb.blog.common.util.IDUtil;
 import com.ycb.blog.dao.ArticleDao;
-import com.ycb.blog.enums.ArticlePublishe;
+import com.ycb.blog.enums.ArticlePublisheEnum;
 import com.ycb.blog.enums.ArticleStatusEnum;
 import com.ycb.blog.enums.EditorTypeEnum;
 import com.ycb.blog.model.Article;
@@ -106,7 +106,7 @@ public class ArticleServiceImpl implements ArticleService {
         Article article = new Article();
         article.setId(id);
         article.setArticleStatus(ArticleStatusEnum.DEL.getCode());
-        article.setArticleIsPublished(ArticlePublishe.FAIL_PUBLISHE.getCode());
+        article.setArticleIsPublished(ArticlePublisheEnum.FAIL_PUBLISHE.getCode());
         articleDao.updateArticle(article);
         List<ArticleTag> articleTags = articleTagService.findByArticleId(id);
 
@@ -117,5 +117,20 @@ public class ArticleServiceImpl implements ArticleService {
         }
 
         return 0;
+    }
+
+    @Override
+    public Article findByArticleId(String id, int articleIsPublished) {
+        return articleDao.findByArticleId(id,articleIsPublished);
+    }
+
+    @Override
+    public List<Article> queryArticleByTag(Tag tag) {
+        return articleDao.queryArticleByTag(tag);
+    }
+
+    @Override
+    public int articleViewCount(String id) {
+        return articleDao.articleViewCount(id);
     }
 }
