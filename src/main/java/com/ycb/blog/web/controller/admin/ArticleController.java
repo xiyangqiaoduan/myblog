@@ -7,6 +7,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ycb.blog.common.util.base.BaseController;
 import com.ycb.blog.dto.Result;
+import com.ycb.blog.enums.ArticleStatusEnum;
 import com.ycb.blog.model.Article;
 import com.ycb.blog.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,6 +107,7 @@ public class ArticleController extends BaseController {
         Article article=new Article();
         article.setArticleIsPublished(articleIsPublished);
         article.setId(id);
+        article.setArticleStatus(ArticleStatusEnum.NOT_DEL.getCode());
         articleService.updateArticle(article);
         Result<String> result = new Result<String>();
         result.setStatus(true);
