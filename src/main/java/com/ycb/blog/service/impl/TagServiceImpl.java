@@ -43,4 +43,9 @@ public class TagServiceImpl implements TagService {
         return tagDao.batchUpdateTag(articleTags);
     }
 
+    @Override
+    public List<Tag> queryAllTags() {
+        return tagDao.queryAllTags();
+    }
+
 }

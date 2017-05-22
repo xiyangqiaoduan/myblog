@@ -42,5 +42,9 @@ public interface TagService {
      */
     int batchUpdateTag(List<ArticleTag> articleTags);
 
-
+    /**
+     * 查询所有标签
+     * @return
+     */
+    List<Tag> queryAllTags();
 }

@@ -45,6 +45,9 @@
 
     </update>
 
-
+    <!-- 查询所有标签  -->
+    <select id="queryAllTags"  resultType="Tag">
+        SELECT * FROM blog_tag
+    </select>
 
 </mapper>

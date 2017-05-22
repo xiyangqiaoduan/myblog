@@ -43,32 +43,44 @@ public class IndexController extends BaseController {
         model.addAttribute("articles", articles);
         Map<String, String> systemMap = optionService.getAllOptions();
         model.addAttribute("systemMap", systemMap);
+        List<Tag> tags = tagService.queryAllTags();
+        model.addAttribute("tags",tags);
         return "9IPHP/index";
     }
 
     @RequestMapping("/detail/{path}/{id}.html")
     public String articleDetail(@PathVariable String path, @PathVariable String id, Model model) {
         LOG.debug("请求地址：path={},id={}", path, id);
-
-
         articleService.articleViewCount(id);
-
         Map<String, String> systemMap = optionService.getAllOptions();
         model.addAttribute("systemMap", systemMap);
         Article article = articleService.findByArticleId(id, ArticlePublisheEnum.SUCCESS_PUBLISHE.getCode());
         model.addAttribute("article", article);
+        List<Tag> tags = tagService.queryAllTags();
+        model.addAttribute("tags",tags);
         return "9IPHP/article";
     }
 
     @RequestMapping("/tags/{tagTitle}")
-    public String tagArticleList(@PathVariable String tagTitle,Model model) {
+    public String tagArticleList(@PathVariable String tagTitle, Model model) {
         Map<String, String> systemMap = optionService.getAllOptions();
         model.addAttribute("systemMap", systemMap);
         Tag tag = tagService.findByTagTitle(tagTitle);
-        model.addAttribute("tag",tag);
-        List<Article> articles=articleService.queryArticleByTag(tag);
-        model.addAttribute("articles",articles);
+        model.addAttribute("tag", tag);
+        List<Tag> tags = tagService.queryAllTags();
+        model.addAttribute("tags",tags);
+        List<Article> articles = articleService.queryArticleByTag(tag);
+        model.addAttribute("articles", articles);
         return "9IPHP/tag-articles";
+    }
+
+    @RequestMapping("tags.html")
+    public String tags(Model model) {
+        Map<String, String> systemMap = optionService.getAllOptions();
+        model.addAttribute("systemMap", systemMap);
+        List<Tag> tags = tagService.queryAllTags();
+        model.addAttribute("tags",tags);
+        return "9IPHP/tags";
     }
 
 

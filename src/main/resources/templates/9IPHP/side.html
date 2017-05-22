@@ -1,0 +1,20 @@
+<aside>
+    <section>
+            <div class="ad content-reset">
+                ${systemMap.website_noticeboard}
+            </div>
+
+            <div class="module">
+                <header><h2>标签</h2></header>
+                <main>
+                    <#list tags as tag>
+                        <a rel="tag"
+                           href="tags/${tag.tagTitle?url('UTF-8')}"
+                           class="tag tooltipped tooltipped-n"
+                           aria-label="${tag.tagPublishedRefCount}篇文章">
+                                ${tag.tagTitle}</a>
+                    </#list>
+                </main>
+            </div>
+    </section>
+</aside>

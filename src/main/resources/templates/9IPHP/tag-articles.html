@@ -1,14 +1,14 @@
 <#include "macro-head.html">
-<!DOCTYPE html>
-<html>
+    <!DOCTYPE html>
+    <html>
     <head>
         <@head title="${tag.tagTitle} - ${systemMap.website_title}">
         <meta name="keywords" content="${systemMap.website_title},${tag.tagTitle}"/>
         <meta name="description" content="<#list articles as article>${article.articleTitle},</#list>"/>
-        </@head>
+    </@head>
     </head>
     <body>
-        <#include "header.html">
+    <#include "header.html">
         <div class="wrapper">
             <div class="main-wrap">
                 <main>
@@ -19,9 +19,9 @@
                     </div>
                     <#include "article-list.html">
                 </main>
-               <#-- <#include "side.ftl">-->
+                <#include "side.html">
             </div>
         </div>
         <#include "footer.html">
     </body>
-</html>
+    </html>

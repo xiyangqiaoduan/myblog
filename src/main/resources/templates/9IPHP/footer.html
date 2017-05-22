@@ -6,10 +6,28 @@
 </footer>
 <div class="icon-up"  id="icon-up" ></div>
 
-<script type="text/javascript" src="${systemMap.website_url}/9IPHP/js/jquery.min.js" charset="utf-8"></script>
-<script type="text/javascript" src="${systemMap.website_url}/9IPHP/js/common.js?1111111" charset="utf-8"></script>
-<script type="text/javascript" src="${systemMap.website_url}/9IPHP/js/common.js?111111" charset="utf-8"></script>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="${systemMap.website_url}/9IPHP/js/common.js?2017" charset="utf-8"></script>
+<script type="text/javascript" src="${systemMap.website_url}/9IPHP/js/common.js?2017" charset="utf-8"></script>
+<!-- 代码高亮 -->
+<script src="https://cdn.bootcss.com/highlight.js/9.11.0/highlight.min.js"></script>
+<script >hljs.initHighlightingOnLoad();</script>
 <script type="text/javascript">
+    $(document).ready(function() {
+        $('pre code').each(function(){
+            texts = $(this).text().replace(/&(?!#?[a-zA-Z0-9]+;)/g, '&amp;')
+                .replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&#39;').replace(/"/g, '&quot;')
+            var codetext = texts.split('\n');
+            var code = '';
+            $(codetext).each(function(v){
+                code += '<li>'+codetext[v]+'</li>';
+            })
+            code = '<ol>'+code+'</ol>';
+            $(this).html(code);
+        });
+
+    });
+
 
     window.onload = function(){
         var obtn = document.getElementById('icon-up');  //获取回到顶部按钮的ID

@@ -1,5 +1,6 @@
 package com.ycb.blog.web.controller.admin;
 
+import com.ycb.blog.common.ICommon;
 import com.ycb.blog.common.util.MD5Util;
 import com.ycb.blog.common.util.base.BaseController;
 import com.ycb.blog.dto.Result;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * 用户登录
  *
@@ -22,7 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  **/
 @Controller
 @RequestMapping("admin")
-public class LoginController extends BaseController{
+public class LoginController extends BaseController {
 
     @Autowired
     private UserService userService;
@@ -32,39 +35,39 @@ public class LoginController extends BaseController{
 
 
     @GetMapping("/login.html")
-    public String loginPage(){
+    public String loginPage() {
         return "admin/login";
     }
 
-    @RequestMapping(value = "login",method = RequestMethod.POST,produces = {JSON_UTF8})
+    @RequestMapping(value = "login", method = RequestMethod.POST, produces = {JSON_UTF8})
     @ResponseBody
-    public Result login(String userEmail,String userPassword){
-        Result result=new Result();
-        if(StringUtils.isEmpty(userEmail)){
+    public Result login(String userEmail, String userPassword, HttpServletRequest request) {
+        Result result = new Result();
+        if (StringUtils.isEmpty(userEmail)) {
             result.setErrMsg("邮箱不能为空！");
             return result;
         }
-        if(StringUtils.isEmpty((userPassword))){
+        if (StringUtils.isEmpty((userPassword))) {
             result.setErrMsg("用户密码不能为空");
-            return  result;
+            return result;
         }
-       User user=userService.getByEmail(userEmail);
-       if(user==null){
-           result.setErrMsg("当前用户信息不存在");
-           return  result;
-       }
-//       if(!MD5Util.MD5(userPassword).equals(user.getUserPassword())){
-//           result.setErrMsg("用户密码错误");
-//           return  result;
-//       }
+        User user = userService.getByEmail(userEmail);
+        if (user == null) {
+            result.setErrMsg("当前用户信息不存在");
+            return result;
+        }
 
+        if (!MD5Util.MD5(userPassword).equals(user.getUserPassword())) {
+            result.setErrMsg("用户密码错误");
+            return result;
+        }
+
+        request.getSession().setAttribute(ICommon.SESSION_ID,user);
         result.setStatus(true);
         result.setUrl("/admin/index.html");
 
 
-
-
-        return  result;
+        return result;
     }
 
 
