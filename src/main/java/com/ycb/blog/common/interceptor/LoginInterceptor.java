@@ -22,7 +22,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
-        LOG.debug("======================preHandle");
+        LOG.debug("===================url={}",request.getRequestURI());
         request.setAttribute("starttime", System.currentTimeMillis());
         Object obj = request.getSession().getAttribute(ICommon.SESSION_ID);
         if (!request.getRequestURI().contains("login")) {
