@@ -33,6 +33,9 @@ public class LoginController extends BaseController {
     @Value("${MD5.salt}")
     private String salt;
 
+    @Value("${kaptcha.session.key}")
+    private String session_code;
+
 
     @GetMapping("/login.html")
     public String loginPage() {
@@ -41,8 +44,15 @@ public class LoginController extends BaseController {
 
     @RequestMapping(value = "login", method = RequestMethod.POST, produces = {JSON_UTF8})
     @ResponseBody
-    public Result login(String userEmail, String userPassword, HttpServletRequest request) {
+    public Result login(String userEmail, String userPassword, String code, HttpServletRequest request) {
+
+        LOG.debug("request params userEmail={} ,userPassword={} ,code={}",userEmail,userPassword,code);
+
         Result result = new Result();
+        if (StringUtils.isEmpty(code)) {
+            result.setErrMsg("验证码不能为空！");
+            return result;
+        }
         if (StringUtils.isEmpty(userEmail)) {
             result.setErrMsg("邮箱不能为空！");
             return result;
@@ -51,6 +61,14 @@ public class LoginController extends BaseController {
             result.setErrMsg("用户密码不能为空");
             return result;
         }
+        String code_cache = (String) request.getSession().getAttribute(session_code);
+        LOG.debug("code_cache={}",code_cache);
+
+        if(!code.toLowerCase().equals(code_cache.toLowerCase())){
+            result.setErrMsg("验证码不正确");
+            return result;
+        }
+
         User user = userService.getByEmail(userEmail);
         if (user == null) {
             result.setErrMsg("当前用户信息不存在");
@@ -62,7 +80,7 @@ public class LoginController extends BaseController {
             return result;
         }
 
-        request.getSession().setAttribute(ICommon.SESSION_ID,user);
+        request.getSession().setAttribute(ICommon.SESSION_ID, user);
         result.setStatus(true);
         result.setUrl("/admin/index.html");
 

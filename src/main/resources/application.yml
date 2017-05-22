@@ -75,5 +75,33 @@ druid:
 MD5:
   salt: 123456
 
+kaptcha:
+  session:
+    key: kaptcha.code
+  #border: no
+  #渲染效果：水纹：WaterRipple；鱼眼：FishEyeGimpy；阴影：ShadowGimpy
+  obscurificator:
+    impl: com.google.code.kaptcha.impl.WaterRipple
+  #不要噪点
+  noise:
+    impl: com.google.code.kaptcha.impl.NoNoise
+  image:
+    width: 90
+    height: 40
+  textproducer:
+    font:
+      size: 25
+      color: black
+    char:
+      length: 4
+      space: 5
+      string: 0123456789qwertyuipasdfghjkzxcvbnmQWERTYUOPASDFGHJKLZXCVBNM
+  #和登录框背景颜色一致
+  background:
+    clear:
+      from: 247,247,247
+      to: 247,247,247
+
+
 
 
