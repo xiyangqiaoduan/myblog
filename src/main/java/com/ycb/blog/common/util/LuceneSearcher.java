@@ -3,8 +3,9 @@ package com.ycb.blog.common.util;
 import com.ycb.blog.dto.SearcherDto;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.*;
-import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.*;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.NIOFSDirectory;
 import org.apache.lucene.util.Version;
@@ -28,7 +29,7 @@ public class LuceneSearcher {
     public static String INDEX_PATH = "~/indexes/";
     private static Directory directory;
     private static Analyzer analyzer = null;//分词器
-
+    private static IndexWriterConfig indexWriterConfig;
     public static Logger LOG = LoggerFactory.getLogger(LuceneSearcher.class);
 
 
@@ -48,6 +49,7 @@ public class LuceneSearcher {
             LOG.debug("init lucene config");
             File indexDir = new File(INDEX_PATH);
             directory = NIOFSDirectory.open(indexDir);
+            indexWriterConfig=new IndexWriterConfig(Version.LUCENE_47,new IKAnalyzer());
         } catch (IOException e) {
             LOG.error("init lucene config error", e);
         }
@@ -59,11 +61,10 @@ public class LuceneSearcher {
      * @param searcherDto
      * @throws InterruptedException
      */
-    public void addBean(SearcherDto searcherDto) throws InterruptedException {
+    public void addBean(SearcherDto searcherDto){
         IndexWriter writer=null;
         try{
             getCurrentLock();
-            IndexWriterConfig indexWriterConfig=new IndexWriterConfig(Version.LUCENE_47,new IKAnalyzer());
             writer=new IndexWriter(directory,indexWriterConfig);
             Document doc=new Document();
             doc.add(new StringField("sid",searcherDto.getSid(), Field.Store.YES));
@@ -88,13 +89,16 @@ public class LuceneSearcher {
 
     }
 
+    /**
+     * 删除索引
+     * @param beanId
+     */
     public void deleteBean(String beanId){
-
         IndexWriter writer=null;
-
         try{
             getCurrentLock();
-
+            writer=new IndexWriter(directory,indexWriterConfig);
+            writer.deleteDocuments(new Term(beanId));
         }catch(Exception e){
             LOG.error("delete bean to luncene,beanId:",beanId,e);
         }finally {
@@ -105,16 +109,46 @@ public class LuceneSearcher {
             }catch (Exception e){
                 LOG.error("close failed", e);
             }
-
             lock.unlock();
-
         }
+    }
 
+    /**
+     * 更新索引消息
+     * @param searcherDto
+     */
+    public void updateBean(SearcherDto searcherDto){
+        deleteBean(searcherDto.getSid());
+        addBean(searcherDto);
+    }
 
+    /**
+     * 重建索引
+     */
+    public static  void reloadIndex(){
 
     }
 
 
+
+
+
+
+
+    public void search(String keyword,String module){
+
+        try{
+
+            IndexReader indexReader= DirectoryReader.open(directory);
+            IndexSearcher searcher=new IndexSearcher(indexReader);
+
+
+
+        }catch (Exception e){
+            LOG.error("search error：",e);
+        }
+
+    }
 
 
 
