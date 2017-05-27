@@ -1,7 +1,11 @@
 package com.ycb.blog.service.impl;
 
+import com.ycb.blog.common.util.HtmlUtil;
 import com.ycb.blog.common.util.IDUtil;
+import com.ycb.blog.common.util.LuceneSearcher;
+import com.ycb.blog.common.util.Page;
 import com.ycb.blog.dao.ArticleDao;
+import com.ycb.blog.dto.SearcherDto;
 import com.ycb.blog.enums.ArticlePublisheEnum;
 import com.ycb.blog.enums.ArticleStatusEnum;
 import com.ycb.blog.enums.EditorTypeEnum;
@@ -18,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -77,11 +82,31 @@ public class ArticleServiceImpl implements ArticleService {
                 articleTagService.insertArticleTag(articleTag);
             }
 
+            addIndex(article);
+
+
+
 
         }
 
 
         return 0;
+    }
+
+    /**
+     * 建立索引
+     * @param article
+     */
+    private void addIndex(Article article) {
+        LuceneSearcher luceneSearcher=new LuceneSearcher();
+        SearcherDto searcherDto=new SearcherDto();
+        searcherDto.setSid(article.getId());
+        searcherDto.setContent(HtmlUtil.delHTMLTag(article.getArticleContent()));
+        searcherDto.setDescription(HtmlUtil.delHTMLTag(article.getArticleAbstract()));
+        searcherDto.setTitle(article.getArticleTitle());
+        searcherDto.setUrl(article.getArticlePermalink());
+        searcherDto.setCreated(article.getArticleCreateDate());
+        luceneSearcher.addBean(searcherDto);
     }
 
     @Override
@@ -97,6 +122,15 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public int updateArticle(Article article) {
+
+        //索引处理
+        if(ArticlePublisheEnum.SUCCESS_PUBLISHE.getCode()==article.getArticleIsPublished()){
+            addIndex(articleDao.findById(article.getId()));
+        }else if(ArticlePublisheEnum.FAIL_PUBLISHE.getCode()==article.getArticleIsPublished()){
+            delIndexs(articleDao.findById(article.getId()));
+        }
+
+
         return articleDao.updateArticle(article);
     }
 
@@ -116,7 +150,20 @@ public class ArticleServiceImpl implements ArticleService {
 
         }
 
+
+        delIndexs(article);
+
+
         return 0;
+    }
+
+    /**
+     * 删除索引
+     * @param article
+     */
+    private void delIndexs(Article article) {
+        LuceneSearcher luceneSearcher=new LuceneSearcher();
+        luceneSearcher.deleteBean(article.getId());
     }
 
     @Override
@@ -132,5 +179,20 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public int articleViewCount(String id) {
         return articleDao.articleViewCount(id);
+    }
+
+    @Override
+    public List<Article> searchArticle(String keyword,int pageNum,int pageSize) {
+        LuceneSearcher luceneSearcher=new LuceneSearcher();
+        Page<SearcherDto> page =luceneSearcher.search(keyword, pageNum, pageSize);
+        List<Article> articles=null;
+        if(page !=null&&page.getList()!=null && !page.getList().isEmpty()){
+            articles=new ArrayList<Article>();
+            for(SearcherDto searcherDto:page.getList()){
+                Article article=articleDao.findById(searcherDto.getSid());
+                articles.add(article);
+            }
+        }
+        return articles;
     }
 }

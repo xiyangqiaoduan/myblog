@@ -58,4 +58,12 @@
 
     </update>
 
+
+    <select id="findById" resultType="Article">
+
+        SELECT * FROM blog_article WHERE id=#{id} LIMIT 1
+
+    </select>
+
+
 </mapper>

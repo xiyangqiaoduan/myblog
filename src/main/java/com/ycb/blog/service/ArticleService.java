@@ -63,4 +63,11 @@ public interface ArticleService {
     * @return
     */
    int articleViewCount(String id);
+
+   /**
+    * 搜索信息
+    * @param keyword
+    * @return
+    */
+   List<Article> searchArticle(String keyword,int pageNum,int pageSize);
 }

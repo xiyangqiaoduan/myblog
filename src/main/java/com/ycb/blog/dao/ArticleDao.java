@@ -59,4 +59,13 @@ public interface ArticleDao {
      * @return
      */
     int articleViewCount(String id);
+
+    /**
+     * 根据ID 查询文章
+     * @param id
+     * @return
+     */
+    Article findById(String id);
+
+
 }

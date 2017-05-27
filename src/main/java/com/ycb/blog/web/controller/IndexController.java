@@ -7,11 +7,13 @@ import com.ycb.blog.model.Tag;
 import com.ycb.blog.service.ArticleService;
 import com.ycb.blog.service.OptionService;
 import com.ycb.blog.service.TagService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
@@ -44,7 +46,7 @@ public class IndexController extends BaseController {
         Map<String, String> systemMap = optionService.getAllOptions();
         model.addAttribute("systemMap", systemMap);
         List<Tag> tags = tagService.queryAllTags();
-        model.addAttribute("tags",tags);
+        model.addAttribute("tags", tags);
         return "9IPHP/index";
     }
 
@@ -57,7 +59,7 @@ public class IndexController extends BaseController {
         Article article = articleService.findByArticleId(id, ArticlePublisheEnum.SUCCESS_PUBLISHE.getCode());
         model.addAttribute("article", article);
         List<Tag> tags = tagService.queryAllTags();
-        model.addAttribute("tags",tags);
+        model.addAttribute("tags", tags);
         return "9IPHP/article";
     }
 
@@ -68,7 +70,7 @@ public class IndexController extends BaseController {
         Tag tag = tagService.findByTagTitle(tagTitle);
         model.addAttribute("tag", tag);
         List<Tag> tags = tagService.queryAllTags();
-        model.addAttribute("tags",tags);
+        model.addAttribute("tags", tags);
         List<Article> articles = articleService.queryArticleByTag(tag);
         model.addAttribute("articles", articles);
         return "9IPHP/tag-articles";
@@ -79,8 +81,24 @@ public class IndexController extends BaseController {
         Map<String, String> systemMap = optionService.getAllOptions();
         model.addAttribute("systemMap", systemMap);
         List<Tag> tags = tagService.queryAllTags();
-        model.addAttribute("tags",tags);
+        model.addAttribute("tags", tags);
         return "9IPHP/tags";
+    }
+
+    @RequestMapping("search.html")
+    public String search(String keyword, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "15") int pageSize, Model model) {
+        if (StringUtils.isBlank(keyword)) {
+            return index(model);
+        }
+        List<Article> articles = articleService.searchArticle(keyword,pageNum,pageSize);
+        model.addAttribute("articles", articles);
+        Map<String, String> systemMap = optionService.getAllOptions();
+        model.addAttribute("systemMap", systemMap);
+        List<Tag> tags = tagService.queryAllTags();
+        model.addAttribute("tags", tags);
+
+
+        return "";
     }
 
 

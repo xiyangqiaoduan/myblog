@@ -32,7 +32,6 @@ public class LuceneSearcher {
     public static String INDEX_PATH = "~/indexes/";
     private static Directory directory;
     private static Analyzer analyzer = null;//分词器
-    private static IndexWriterConfig indexWriterConfig;
     public static Logger LOG = LoggerFactory.getLogger(LuceneSearcher.class);
 
 
@@ -51,7 +50,6 @@ public class LuceneSearcher {
             LOG.debug("init lucene config");
             File indexDir = new File(INDEX_PATH);
             directory = NIOFSDirectory.open(indexDir);
-            indexWriterConfig = new IndexWriterConfig(Version.LUCENE_47, new IKAnalyzer());
         } catch (IOException e) {
             LOG.error("init lucene config error", e);
         }
@@ -68,6 +66,7 @@ public class LuceneSearcher {
         IndexWriter writer = null;
         try {
             getCurrentLock();
+            IndexWriterConfig indexWriterConfig = new IndexWriterConfig(Version.LUCENE_47, new IKAnalyzer());
             writer = new IndexWriter(directory, indexWriterConfig);
             Document doc = new Document();
             doc.add(new StringField("sid", searcherDto.getSid(), Field.Store.YES));
@@ -101,13 +100,14 @@ public class LuceneSearcher {
         IndexWriter writer = null;
         try {
             getCurrentLock();
+            IndexWriterConfig indexWriterConfig = new IndexWriterConfig(Version.LUCENE_47, new IKAnalyzer());
             writer = new IndexWriter(directory, indexWriterConfig);
             writer.deleteDocuments(new Term(beanId));
         } catch (Exception e) {
             LOG.error("delete bean to luncene,beanId:", beanId, e);
         } finally {
             try {
-                if (writer == null) {
+                if (writer != null) {
                     writer.close();
                 }
             } catch (Exception e) {
@@ -180,7 +180,7 @@ public class LuceneSearcher {
             Document doc = indexSearcher.doc(scoreDoc.doc);
             SearcherDto searcherDto = new SearcherDto();
             searcherDto.setContent(doc.get("content"));
-            searcherDto.setSid(doc.get("sic"));
+            searcherDto.setSid(doc.get("sid"));
             searcherDto.setUrl(doc.get("url"));
             searcherDto.setDescription(doc.get("description"));
             searcherDto.setTitle(doc.get("title"));
