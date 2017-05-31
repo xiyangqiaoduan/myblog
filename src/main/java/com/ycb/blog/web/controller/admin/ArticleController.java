@@ -113,7 +113,6 @@ public class ArticleController extends BaseController {
         result.setErrCode(0000);
         result.setErrMsg("success");
         return result;
-
     }
 
     @RequestMapping("article/delArticle/{id}")
@@ -128,6 +127,11 @@ public class ArticleController extends BaseController {
         result.setErrMsg("success");
         return result;
 
+    }
+
+
+    public String articleUpdatePage(){
+        return "admin/article-list";
     }
 
 

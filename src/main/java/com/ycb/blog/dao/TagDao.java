@@ -33,15 +33,22 @@ public interface TagDao {
     int update(Tag tag);
 
     /**
-     * 批量更新标签
+     * 批量更新标签，减少关联文章数
      * @param articleTags
      * @return
      */
-    int batchUpdateTag(List<ArticleTag> articleTags);
+    int batchUpdateTagDown(List<ArticleTag> articleTags);
 
     /**
      * 查询所有标签
      * @return
      */
     List<Tag> queryAllTags();
+
+    /**
+     *  批量更新标签，增加关联文章数
+     * @param articleTags
+     * @return
+     */
+    int batchUpdateTagUp(List<ArticleTag> articleTags);
 }

@@ -122,12 +122,21 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public int updateArticle(Article article) {
-
+        List<ArticleTag> articleTags=articleTagService.findByArticleId(article.getId());
         //索引处理
         if(ArticlePublisheEnum.SUCCESS_PUBLISHE.getCode()==article.getArticleIsPublished()){
             addIndex(articleDao.findById(article.getId()));
+            //TODO  关联标签增加文章数
+            if(!articleTags.isEmpty()){
+                tagService.batchUpdateTagUp(articleTags);
+            }
+
         }else if(ArticlePublisheEnum.FAIL_PUBLISHE.getCode()==article.getArticleIsPublished()){
             delIndexs(articleDao.findById(article.getId()));
+            //TODO 关联标签减少文章数
+            if(!articleTags.isEmpty()){
+                tagService.batchUpdateTagDown(articleTags);
+            }
         }
 
 
@@ -146,7 +155,7 @@ public class ArticleServiceImpl implements ArticleService {
 
         if(articleTags!=null && !articleTags.isEmpty()){
 
-            tagService.batchUpdateTag(articleTags);
+            tagService.batchUpdateTagDown(articleTags);
 
         }
 

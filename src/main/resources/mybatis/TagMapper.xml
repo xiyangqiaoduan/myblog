@@ -33,18 +33,26 @@
     </select>
 
 
-    <!--批量更新-->
-    <update id="batchUpdateTag"  parameterType="java.util.List">
-
+    <!--批量更新,减少文章关联数-->
+    <update id="batchUpdateTagDown"  parameterType="java.util.List">
         <foreach collection="list" item="item" index="index" open="" close="" separator=";">
             update blog_tag
             set
             tag_published_refcount=tag_published_refcount-1
             where id= #{item.tagId}
         </foreach>
+    </update>
+    <!--批量更新，增加文章关联数据-->
+    <update id="batchUpdateTagUp"  parameterType="java.util.List">
+
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update blog_tag
+            set
+            tag_published_refcount=tag_published_refcount+1
+            where id= #{item.tagId}
+        </foreach>
 
     </update>
-
     <!-- 查询所有标签  -->
     <select id="queryAllTags"  resultType="Tag">
         SELECT * FROM blog_tag

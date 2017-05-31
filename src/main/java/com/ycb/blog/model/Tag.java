@@ -24,6 +24,13 @@ public class Tag {
     private int tagPublishedRefCount;
 
 
+    public Tag(String id) {
+        this.id = id;
+    }
+
+    public Tag() {
+    }
+
     public String getId() {
         return id;
     }
